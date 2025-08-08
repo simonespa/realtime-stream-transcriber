@@ -12,6 +12,8 @@ on:
     branches: ["main"]
     paths:
       - src/**/*
+      - package.json
+      - pnpm-lock.yaml
 
 jobs:
   build:
