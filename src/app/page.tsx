@@ -3,16 +3,16 @@
 import { useRef, useEffect } from "react";
 
 export default function Home() {
-  const urlRef = useRef(null);
-  const transcribeButtonRef = useRef(null);
+  const inputUrlRef = useRef<HTMLInputElement>(null);
+  const outputTranscriptRef = useRef(null);
+  const transcribeButtonRef = useRef<HTMLButtonElement>(null);
   const statusRef = useRef(null);
-  const transcriptRef = useRef(null);
   const audioPlayerRef = useRef(null);
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      workerRef.current = new Worker(new URL('../workers/transformers.ts', import.meta.url));
+      workerRef.current = new Worker(new URL('../workers/transcriber.ts', import.meta.url));
 
       workerRef.current.onmessage = function (event) {
       };
@@ -24,6 +24,25 @@ export default function Home() {
       };
     }
   }, []);
+
+  const transcribeButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (!inputUrlRef.current) return;
+
+    const url: string = inputUrlRef.current.value.trim();
+
+    console.log(url)
+  };
+
+  function keyDownHandler(event: React.KeyboardEvent<HTMLInputElement>): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (transcribeButtonRef.current) {
+        transcribeButtonRef.current.click();
+      }
+    }
+  }
 
   return (
     <>
@@ -39,17 +58,18 @@ export default function Home() {
         <div id="controls">
           <input
             type="url"
-            ref={urlRef}
+            ref={inputUrlRef}
+            onKeyDown={keyDownHandler}
             placeholder="Enter a stream URL"
           />
-          <button ref={transcribeButtonRef}>Start Transcription</button>
+          <button ref={transcribeButtonRef} onClick={transcribeButtonHandler}>Start Transcription</button>
         </div>
 
         <div ref={statusRef}>Status: Idle</div>
 
         <h2>Transcription</h2>
 
-        <div id="transcript" ref={transcriptRef}></div>
+        <div id="transcript" ref={outputTranscriptRef}></div>
       </div>
 
       <audio ref={audioPlayerRef} crossOrigin="anonymous"></audio>
