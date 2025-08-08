@@ -7,7 +7,6 @@
   },
   "packageManager": "pnpm@10.12.1",
   "license": "GPL-3.0-or-later",
-
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -16,6 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@huggingface/transformers": "^3.7.1",
     "next": "15.4.6",
     "react": "19.1.1",
     "react-dom": "19.1.1"
