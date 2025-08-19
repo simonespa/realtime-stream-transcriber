@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@huggingface/transformers": "^3.7.1",
+    "@huggingface/transformers": "^3.7.2",
     "next": "15.4.6",
     "react": "19.1.1",
     "react-dom": "19.1.1"
